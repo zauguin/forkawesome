@@ -1,0 +1,3 @@
+.git* export-ignore
+/gen export-ignore
+/convert export-ignore

@@ -1,0 +1,63 @@
+\documentclass{scrartcl}
+\usepackage{hyperref}
+\usepackage{shortvrb}
+\usepackage{metalogo}
+\usepackage{forkawesome}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\MakeShortVerb{\|}
+\begin{document}
+\title{The forkawesome package\thanks{This document corresponds to forkawesome version 1.1.0, dated 2018/07/09}}
+\author{Fork Awesome Project\thanks{More information at \url{https://forkawesome.github.io/}} (The font)\and Marcel Krüger\thanks{E-Mail: \href{mailto:tex@2krueger.de}{\nolinkurl{tex@2krueger.de}}} (The \LaTeX{} package)}
+\maketitle
+This package provides \LaTeX{} support for Fork Awesome, a fork of Font Awesome v4.
+
+To use Fork Awesome icons in your document, include the package with
+\begin{verbatim}
+  \usepackage{fontawesome5}
+\end{verbatim}
+For every icon a macro is provided: Just use the official icon names converted to CamelCase with the prefix |\fa|.
+For example to use the |file-photo-o| icon, use |\faFilePhotoO|.
+
+Every icon can also be accessed with |\faicon{the-icon-name}|.
+
+\subsection*{Example}
+\begin{verbatim}
+...
+\usepackage{forkawesome}
+...
+\begin{document}
+...
+Two icons: \faFilePhotoO~and \faFile.\\
+Alternative syntax: \faicon{file-photo-o}~\faicon{file}.
+...
+\end{document}
+\end{verbatim}
+
+Two icons: \faFilePhotoO~and \faFile.\\
+Alternative syntax: \faicon{file-photo-o}~\faicon{file}.
+
+\subsection*{Bugs}
+For bug reports and feature requests, write to \href{mailto:tex@2krueger.de}{\nolinkurl{tex@2krueger.de}}.
+
+\subsection*{List of icons}
+\renewcommand\defForkAwesomeName[2]{#1 & \ttfamily\string#1 & \ttfamily\string\faicon\string{#2\string}\\}
+\begin{longtable}{cll}
+  Icon & Command & Alternative command\\\hline\endhead
+  \faicon{500px} & None & |\faicon{500px}|\\
+  \faBattery{0} & |\faBattery{0}|& |\faicon{battery-0}|\\
+  \faBattery{1} & |\faBattery{1}|& |\faicon{battery-1}|\\
+  \faBattery{2} & |\faBattery{2}|& |\faicon{battery-2}|\\
+  \faBattery{3} & |\faBattery{3}|& |\faicon{battery-3}|\\
+  \faBattery{4} & |\faBattery{4}|& |\faicon{battery-4}|\\
+  \faHourglass{1} & |\faHourglass{1}|& |\faicon{hourglass-1}|\\
+  \faHourglass{2} & |\faHourglass{2}|& |\faicon{hourglass-2}|\\
+  \faHourglass{3} & |\faHourglass{3}|& |\faicon{hourglass-3}|\\
+  \faThermometer{0} & |\faThermometer{0}|& |\faicon{thermometer-0}|\\
+  \faThermometer{1} & |\faThermometer{1}|& |\faicon{thermometer-1}|\\
+  \faThermometer{2} & |\faThermometer{2}|& |\faicon{thermometer-2}|\\
+  \faThermometer{3} & |\faThermometer{3}|& |\faicon{thermometer-3}|\\
+  \faThermometer{4} & |\faThermometer{4}|& |\faicon{thermometer-4}|\\
+  \input forkawesome-names.def
+\end{longtable}
+\end{document}

@@ -1,0 +1,41 @@
+\RequirePackage{ifluatex,ifxetex}
+\ifluatex
+  \expandafter\@firstoftwo
+\else
+\ifxetex
+\expandafter\expandafter\expandafter\@firstoftwo
+\else
+\expandafter\expandafter\expandafter\@secondoftwo
+\fi
+\fi
+{%
+  \newcommand\defForkAwesomeIcon[4]{%
+    \expandafter\chardef\csname forkawesome@#1\endcsname"#4%
+  }%
+  \newcommand\faicon[1]{%
+    \usefont{TU}{forkawesome}{m}{n}\csname forkawesome@#1\endcsname
+  }%
+}{%
+  \newcommand\defForkAwesomeIcon[4]{%
+    \expandafter\edef\csname forkawesome@#1\endcsname{{#2}{#3}}%
+  }%
+  \newcommand\fa@icon[2]{%
+    \begingroup
+      \usefont{U}{forkawesome#1}{m}{n}\char#2
+    \endgroup
+  }%
+  \newcommand\faicon[1]{%
+    \expandafter\expandafter\expandafter\fa@icon\csname forkawesome@#1\endcsname
+  }%
+}
+\newcommand\defForkAwesomeAlias[2]{%
+  \expandafter\let\csname forkawesome@#1\expandafter\endcsname\csname forkawesome@#2\endcsname
+}
+\newcommand\defForkAwesomeName[2]{%
+  \def#1{\faicon{#2}}%
+}
+\input forkawesome-icons.def
+\input forkawesome-names.def
+\newcommand\faBattery[1]{\faicon{battery-#1}}
+\newcommand\faHourglass[1]{\faicon{hourglass-#1}}
+\newcommand\faThermometer[1]{\faicon{thermometer-#1}}

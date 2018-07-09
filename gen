@@ -1,0 +1,28 @@
+#!/bin/sh
+
+FA_DIR="$1"
+shift
+
+# Generate encodings
+yq -r '[.icons|"/" + .[].id]|join("\n")' "$FA_DIR/src/icons/icons.yml"|split -l256 -d -a1 - --filter='cat <(echo "/$FILE [") - <(echo "] def") > "$FILE".enc' forkawesome
+# Generate mapping
+yq -r '[[.icons[]|{id,unicode}]|to_entries|.[]|"\\defForkAwesomeIcon{"+.value.id+"}{"+(.key/256|floor|tostring)+"}{"+(.key%256|tostring)+"}{"+(.value.unicode|ascii_upcase)+"}"]|join("\n")' "$FA_DIR/src/icons/icons.yml" > forkawesome-icons.def
+yq -r '[.icons[]|"\\defForkAwesomeAlias{"+.aliases[]?+"}{"+.id+"}"]|join("\n")' "$FA_DIR/src/icons/icons.yml" >> forkawesome-icons.def
+sed -re 's/[^{]*\{([^}]*)\}.*/fa-\1/;h;s/-(\w)/\u\1/g;G;/-[0-9]$/d;/500px/d;s/(.*)\nfa-(.*)/\\defForkAwesomeName{\\\1}{\2}/' forkawesome-icons.def | grep -v '\\faHourglass' | grep -v '\\faBattery' | grep -v '\\faThermometer' > forkawesome-names.def
+
+python convert "$FA_DIR/fonts/forkawesome-webfont.ttf" forkawesome.pfb
+rm forkawesome.afm
+for enc in forkawesome*.enc
+do
+  # python convert "$FA_DIR/fonts/forkawesome-webfont.ttf" "$enc" "${enc%.*}.pfb"
+  otftotfm --literal-encoding "$enc" --no-virtual "$FA_DIR/fonts/forkawesome-webfont.ttf" "${enc%.*}" > /dev/null
+  echo "${enc%.*} forkawesome "'"forkawesome ReEncodeFont"'" <[$enc <forkawesome.pfb" >> forkawesome.map
+done
+
+# Now move the files into the structure
+mv forkawesome*.map map/
+mv forkawesome*.enc enc/
+mv forkawesome*.tfm tfm/
+cp "$FA_DIR/fonts/forkawesome-webfont.ttf" truetype/
+mv forkawesome*.def tex/
+mv forkawesome.pfb type1/

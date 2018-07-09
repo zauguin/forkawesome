@@ -1,0 +1,6 @@
+import fontforge
+import sys
+
+font = fontforge.open(sys.argv[1])
+font.encoding = 'original'
+font.generate(sys.argv[2])
